@@ -100,8 +100,6 @@ export default function App() {
       const questToDelete = prev.find(q => q.id === id);
       if (questToDelete && questToDelete.completed) {
         // Optionally reverse stats if deleting a completed quest
-        // Here we choose to let them keep the XP if they delete it to keep it simple,
-        // or reverse it. Let's reverse it to prevent cheat farming.
         setStats(currentStats => ({
           ...currentStats,
           [questToDelete.stat]: Math.max(0, Number((currentStats[questToDelete.stat] - questToDelete.chaptersValue).toFixed(2)))
@@ -112,43 +110,43 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-[#E0E0E0] font-sans flex flex-col overflow-x-hidden selection:bg-[#00F0FF]/30 selection:text-[#00F0FF]">
-      <header className="h-20 border-b border-[#00F0FF]/30 px-4 md:px-8 flex items-center justify-between bg-gradient-to-r from-[#121212] to-transparent">
-        <div className="flex items-center gap-4 md:gap-6">
-          <div className="w-10 h-10 md:w-12 md:h-12 border-2 border-[#00F0FF] rotate-45 flex items-center justify-center bg-[#00F0FF]/5 shrink-0">
-            <span className="-rotate-45 font-black text-[#00F0FF] text-lg md:text-xl">S</span>
+    <div className="h-screen bg-[#0A0A0B] text-[#E0E0E0] font-sans flex flex-col overflow-hidden selection:bg-[#00F0FF]/30 selection:text-[#00F0FF]">
+      <header className="h-16 md:h-20 border-b border-[#00F0FF]/30 px-3 md:px-8 flex items-center justify-between bg-gradient-to-r from-[#121212] to-transparent shrink-0">
+        <div className="flex items-center gap-3 md:gap-6 flex-1 min-w-0">
+          <div className="w-8 h-8 md:w-12 md:h-12 border-2 border-[#00F0FF] rotate-45 flex items-center justify-center bg-[#00F0FF]/5 shrink-0 ml-1 md:ml-0">
+            <span className="-rotate-45 font-black text-[#00F0FF] text-base md:text-xl">S</span>
           </div>
-          <div>
-            <h1 className="text-[10px] md:text-xs tracking-[0.3em] text-[#00F0FF] uppercase font-bold truncate">System Interface v2.0</h1>
-            <div className="text-xl md:text-2xl font-black tracking-tight uppercase italic text-white">NEET <span className="text-[#00F0FF]/60">[2027]</span></div>
+          <div className="min-w-0 flex-1 ml-1 md:ml-0">
+            <h1 className="text-[8px] md:text-xs tracking-[0.1em] md:tracking-[0.3em] text-[#00F0FF] uppercase font-bold truncate">System Interface v2.0</h1>
+            <div className="text-base md:text-2xl font-black tracking-tight uppercase italic text-white truncate">NEET <span className="text-[#00F0FF]/60">[2027]</span></div>
           </div>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-1.5 md:gap-2 shrink-0 ml-2">
           <button 
             onClick={() => setActiveScreen('status')}
-            className={`px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs uppercase tracking-widest font-bold border transition-colors ${activeScreen === 'status' ? 'bg-[#00F0FF]/20 border-[#00F0FF] text-[#00F0FF]' : 'bg-[#1A1A1A] border-[#333] text-[#555] hover:text-[#E0E0E0]'}`}
+            className={`px-2 py-1 md:px-4 md:py-2 text-[9px] md:text-xs uppercase tracking-widest font-bold border transition-colors ${activeScreen === 'status' ? 'bg-[#00F0FF]/20 border-[#00F0FF] text-[#00F0FF]' : 'bg-[#1A1A1A] border-[#333] text-[#555] hover:text-[#E0E0E0]'}`}
           >
             Status
           </button>
           <button 
             onClick={() => setActiveScreen('quests')}
-            className={`px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs uppercase tracking-widest font-bold border transition-colors ${activeScreen === 'quests' ? 'bg-[#00F0FF]/20 border-[#00F0FF] text-[#00F0FF]' : 'bg-[#1A1A1A] border-[#333] text-[#555] hover:text-[#E0E0E0]'}`}
+            className={`px-2 py-1 md:px-4 md:py-2 text-[9px] md:text-xs uppercase tracking-widest font-bold border transition-colors ${activeScreen === 'quests' ? 'bg-[#00F0FF]/20 border-[#00F0FF] text-[#00F0FF]' : 'bg-[#1A1A1A] border-[#333] text-[#555] hover:text-[#E0E0E0]'}`}
           >
             Quests
           </button>
         </div>
       </header>
 
-      <main className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 flex flex-col">
+      <main className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 flex flex-col min-h-0">
         {activeScreen === 'status' ? (
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-6"
+            className="grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto pb-8 min-h-0"
           >
             <aside className="lg:col-span-6 flex flex-col gap-6">
-              <Dashboard stats={stats} />
+               <Dashboard stats={stats} />
             </aside>
             <section className="lg:col-span-6 flex flex-col gap-6">
               <StudyTimer />
@@ -158,7 +156,7 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex-1 flex flex-col"
+            className="flex-1 flex flex-col min-h-0"
           >
             <QuestManager 
               quests={quests}
@@ -181,4 +179,4 @@ export default function App() {
       </footer>
     </div>
   );
-                                                                                                                                          }
+                                  }
